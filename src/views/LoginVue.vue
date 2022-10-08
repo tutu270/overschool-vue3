@@ -21,9 +21,9 @@
         <el-form-item label="密码" prop="upwd">
           <el-input v-model="loginForm.upwd" placeholder="请输入密码"></el-input>
         </el-form-item>
-        <el-form-item >
+        <el-form-item>
           <el-button type="primary" @click="login(loginForm)" :loading="loadingbut">
-            {{loadingbuttext}}
+            {{ loadingbuttext }}
           </el-button>
           <el-button type="danger" @click="cancel" :loading="loadingbut">
             重置
@@ -31,7 +31,7 @@
 
           <el-button type="info" @click="addUser" :loading="false" style="position: relative;
                 right: 145px ;top: 50px;
-          " >
+          ">
             注册用户
           </el-button>
         </el-form-item>
@@ -42,23 +42,52 @@
 
 <script>
 import router from "@/router";
+import axios from "axios";
 export default {
   name: "LoginVue",
   data() {
-    return{
+    return {
       loadingbuttext: '登录',
       loginForm: {},
-      rules:{
+      rules: {
         uname: [{required: true, message: '请输入用户名', trigger: 'blur'}],
         upwd: [{required: true, message: '请输入密码', trigger: 'blur'}],
       }
-
-
     }
   },
-  methods:{
+  methods: {
     addUser() {
       router.replace('/adduser');
+    },
+
+    login(loginForm) {
+      this.$refs['loginForm'].validate((valid) => {
+        if (valid) {
+          this.loadingbut = true
+          this.loadingbuttext = '登录中.......';
+          axios.post('/login', {
+            aname: loginForm.uname,
+            apwd: loginForm.upwd,
+          }).then(succes => {
+            if (succes.data === "ok") {
+              this.$alert('登录成功', {confirmButtonText: '确定'});
+              this.loadingbut = false;
+              this.loadingbuttext = '登录';
+              router.replace('/home');
+            } else {
+              this.$alert('登录失败', {confirmButtonText: '确定'});
+              this.loadingbut = false;
+              this.loadingbuttext = '登录';
+            }
+          }).catch(fail => {
+            this.$alert('登录失败'+fail.response.state.toString, {confirmButtonText: '确定'});
+            this.loadingbut = false;
+            this.loadingbuttext = '登录';
+          })
+        } else {
+          return false;
+        }
+      })
     },
   }
 
@@ -71,6 +100,7 @@ body {
   padding: 0;
   margin: 0;
 }
+
 .max {
   position: absolute;
   left: 0px;
@@ -80,6 +110,7 @@ body {
   width: 1530px;
 
 }
+
 .aa {
 
   position: absolute;
@@ -87,6 +118,7 @@ body {
   top: 225px;
   right: 100px;
 }
+
 .box {
   position: absolute;
   height: 180px;

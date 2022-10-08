@@ -63,7 +63,6 @@ export default {
 
         } else {
           this.$alert('表单验证失败', {confirmButtonText: '确定'})
-
         }
       })
     },
