@@ -69,7 +69,8 @@ export default {
             aname: loginForm.uname,
             apwd: loginForm.upwd,
           }).then(succes => {
-            if (succes.data === "ok") {
+            console.log(succes);
+            if (succes.data.msg === "ok") {
               this.$alert('登录成功', {confirmButtonText: '确定'});
               this.loadingbut = false;
               this.loadingbuttext = '登录';
