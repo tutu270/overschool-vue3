@@ -1,4 +1,4 @@
-# overschool 会员权限管理系统，使用vue3.js+echarts+axios
+# overschool 会员权限管理系统，使用vue3.js+echarts+axios+ElementUl
 
 ## Project setup
 ```
